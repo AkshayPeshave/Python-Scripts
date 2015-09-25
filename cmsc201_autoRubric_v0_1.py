@@ -1,5 +1,5 @@
 ##################################################################################
-# Script : cmsc201_autoRubric_v0_1.py [CMSC201 Rubric Autocomplete (v0.1)]
+# Script : cmsc201_autoRubric_v0_2.py [CMSC201 Rubric Autocomplete (v0.2)]
 # Author : Akshay Peshave (peshave1@umbc.edu)
 # Desc	 : This scripts autocompletes the rubric for a given
 #	   student including computation of total points. 
@@ -12,6 +12,10 @@
 #		python [script_name] [student_id]
 #	   E.g. python cmsc201_autoRubric_v0_1.py peshave1
 # 
+# Revisions in v0.2:
+#	1. Improved regex matching for rubric rows to support fractional values
+#	   for grades.
+#	2. Minor code refactoring.
 # Upcoming revisions:
 #	1. execute script once in homework/lab folder to 
 #	   autocomplete rubrics in all student folders available 
@@ -36,7 +40,7 @@ with open(student + "/rubric_new.txt", "wb") as newRubricFile:
 
             # update total points if rubric line is pre-filled or is the "Total Points" line 
             lineBeginning = line.split(" ")[0]
-            if re.match(r"[0-9]+/[0-9]+", lineBeginning):
+            if re.match(r"[0-9]+(.[0-9]+)?/[0-9]+(.[0-9]+)?", lineBeginning):
                 totalPoints = totalPoints + float(lineBeginning.split("/")[0])
             elif lineBeginning == "Total":
                 totalLineTokens = line.split(":")
@@ -45,7 +49,7 @@ with open(student + "/rubric_new.txt", "wb") as newRubricFile:
             newRubricFile.write(line)
 
 #backup original rubric and replace with auto-filled rubric
-move(student + "/rubric.txt", sys.argv[1] + "/rubric_backup.txt")
-move(student + "/rubric_new.txt", sys.argv[1] + "/rubric.txt")
+move(student + "/rubric.txt", student + "/rubric_backup.txt")
+move(student + "/rubric_new.txt", student + "/rubric.txt")
             
 
