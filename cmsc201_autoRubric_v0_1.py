@@ -42,7 +42,7 @@ with open(student + "/rubric_new.txt", "wb") as newRubricFile:
             lineBeginning = line.split(" ")[0]
             if re.match(r"[0-9]+(.[0-9]+)?/[0-9]+(.[0-9]+)?", lineBeginning):
                 totalPoints = totalPoints + float(lineBeginning.split("/")[0])
-            elif lineBeginning == "Total":
+            elif lineBeginning.lower() == "total":
                 totalLineTokens = line.split(":")
                 line = totalLineTokens[0] + ": " + str(totalPoints) + "/" + totalLineTokens[1].strip().split("/")[1]+"\n"
             
